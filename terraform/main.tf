@@ -11,13 +11,13 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket         = "digitrans-terraform-state"
-    key            = "prod/terraform.tfstate"
-    region         = "eu-north-1"
-    encrypt        = true
-    dynamodb_table = "terraform-state-lock"
-  }
+  # backend "s3" {
+  #   bucket         = "digitrans-terraform-state"
+  #   key            = "prod/terraform.tfstate"
+  #   region         = "eu-north-1"
+  #   encrypt        = true
+  #   dynamodb_table = "terraform-state-lock"
+  # }
 }
 
 provider "aws" {

@@ -2,9 +2,9 @@
 
 # Security Group pour Application Load Balancer
 resource "aws_security_group" "alb" {
-  name_description = "${var.project_name}-${var.environment}-alb-sg"
-  description      = "Security group for Application Load Balancer"
-  vpc_id           = var.vpc_id
+  name        = "${var.project_name}-${var.environment}-alb-sg"
+  description = "Security group for Application Load Balancer"
+  vpc_id      = var.vpc_id
 
   # HTTPS depuis Internet (restreint aux IP Cameroun)
   ingress {
@@ -39,9 +39,9 @@ resource "aws_security_group" "alb" {
 
 # Security Group pour ECS Tasks (Microservices)
 resource "aws_security_group" "ecs_tasks" {
-  name_description = "${var.project_name}-${var.environment}-ecs-tasks-sg"
-  description      = "Security group for ECS tasks"
-  vpc_id           = var.vpc_id
+  name        = "${var.project_name}-${var.environment}-ecs-tasks-sg"
+  description = "Security group for ECS tasks"
+  vpc_id      = var.vpc_id
 
   # Trafic depuis ALB uniquement
   ingress {
@@ -77,9 +77,9 @@ resource "aws_security_group" "ecs_tasks" {
 
 # Security Group pour ElastiCache Redis
 resource "aws_security_group" "redis" {
-  name_description = "${var.project_name}-${var.environment}-redis-sg"
-  description      = "Security group for ElastiCache Redis"
-  vpc_id           = var.vpc_id
+  name        = "${var.project_name}-${var.environment}-redis-sg"
+  description = "Security group for ElastiCache Redis"
+  vpc_id      = var.vpc_id
 
   # Redis depuis ECS tasks uniquement
   ingress {
@@ -105,9 +105,9 @@ resource "aws_security_group" "redis" {
 
 # Security Group pour VPN (connexion on-premise)
 resource "aws_security_group" "vpn" {
-  name_description = "${var.project_name}-${var.environment}-vpn-sg"
-  description      = "Security group for VPN connection"
-  vpc_id           = var.vpc_id
+  name        = "${var.project_name}-${var.environment}-vpn-sg"
+  description = "Security group for VPN connection"
+  vpc_id      = var.vpc_id
 
   # IPSec VPN
   ingress {
