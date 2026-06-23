@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Databases
+  erp-db:
+    image: postgres:15-alpine
+    container_name: erp-db
+    environment:
+      POSTGRES_DB: erp_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - erp-data:/var/lib/postgresql/data
+    networks:
+      - digitrans-network
+
+  crm-db:
+    image: postgres:15-alpine
+    container_name: crm-db
+    environment:
+      POSTGRES_DB: crm_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - crm-data:/var/lib/postgresql/data
+    networks:
+      - digitrans-network
+
+  supplychain-db:
+    image: postgres:15-alpine
+    container_name: supplychain-db
+    environment:
+      POSTGRES_DB: supplychain_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - supplychain-data:/var/lib/postgresql/data
+    networks:
+      - digitrans-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - digitrans-network
+
+  # Microservices
+  erp-service:
+    build:
+      context: ./erp-service
+      dockerfile: Dockerfile
+    container_name: erp-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://erp-db:5432/erp_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - erp-db
+    networks:
+      - digitrans-network
+
+  crm-service:
+    build:
+      context: ./crm-service
+      dockerfile: Dockerfile
+    container_name: crm-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://crm-db:5432/crm_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - crm-db
+    networks:
+      - digitrans-network
+
+  supply-chain-service:
+    build:
+      context: ./supply-chain-service
+      dockerfile: Dockerfile
+    container_name: supply-chain-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://supplychain-db:5432/supplychain_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    depends_on:
+      - supplychain-db
+      - redis
+    networks:
+      - digitrans-network
+
+  bi-service:
+    build:
+      context: ./bi-service
+      dockerfile: Dockerfile
+    container_name: bi-service
+    ports:
+      - "8084:8084"
+    environment:
+      ERP_SERVICE_URL: http://erp-service:8081
+      CRM_SERVICE_URL: http://crm-service:8082
+      SUPPLYCHAIN_SERVICE_URL: http://supply-chain-service:8083
+    depends_on:
+      - erp-service
+      - crm-service
+      - supply-chain-service
+    networks:
+      - digitrans-network
+
+volumes:
+  erp-data:
+  crm-data:
+  supplychain-data:
+
+networks:
+  digitrans-network:
+    driver: bridge

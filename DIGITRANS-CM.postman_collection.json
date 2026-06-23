@@ -1,0 +1,335 @@
+{
+  "info": {
+    "name": "DIGITRANS-CM API Collection",
+    "description": "Collection complète pour tester les 4 microservices",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "erp_url",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "crm_url",
+      "value": "http://localhost:8082"
+    },
+    {
+      "key": "supplychain_url",
+      "value": "http://localhost:8083"
+    },
+    {
+      "key": "bi_url",
+      "value": "http://localhost:8084"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login ERP",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set(\"token\", jsonData.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"password\"\n}"
+            },
+            "url": "{{erp_url}}/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ERP Service",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{erp_url}}/api/employees"
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Nkomo\",\n  \"prenom\": \"Jean\",\n  \"role\": \"Manager\",\n  \"departement\": \"Production\"\n}"
+            },
+            "url": "{{erp_url}}/api/employees"
+          }
+        },
+        {
+          "name": "Get All Suppliers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{erp_url}}/api/suppliers"
+          }
+        },
+        {
+          "name": "Create Supplier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Agro Supplies Ltd\",\n  \"contact\": \"+237 699 123 456\",\n  \"localisation\": \"Bafoussam\"\n}"
+            },
+            "url": "{{erp_url}}/api/suppliers"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CRM Service",
+      "item": [
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{crm_url}}/api/customers"
+          }
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Restaurant SavoirManger Douala\",\n  \"email\": \"douala@savoirmanger.cm\",\n  \"ville\": \"Douala\"\n}"
+            },
+            "url": "{{crm_url}}/api/customers"
+          }
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{crm_url}}/api/orders"
+          }
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"montant\": 150000,\n  \"statut\": \"EN_COURS\",\n  \"date\": \"2024-01-15T10:30:00\"\n}"
+            },
+            "url": "{{crm_url}}/api/orders"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Supply Chain Service",
+      "item": [
+        {
+          "name": "Get All Products (Cached)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{supplychain_url}}/api/products"
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Bananes Plantain\",\n  \"categorie\": \"Fruits\",\n  \"quantite\": 500\n}"
+            },
+            "url": "{{supplychain_url}}/api/products"
+          }
+        },
+        {
+          "name": "Get All Shipments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{supplychain_url}}/api/shipments"
+          }
+        },
+        {
+          "name": "Create Shipment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"origine\": \"Plantation Bafoussam\",\n  \"destination\": \"Entrepôt Douala\",\n  \"statut\": \"EN_TRANSIT\",\n  \"date\": \"2024-01-15T08:00:00\"\n}"
+            },
+            "url": "{{supplychain_url}}/api/shipments"
+          }
+        },
+        {
+          "name": "Update Shipment Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"LIVRE\"\n}"
+            },
+            "url": "{{supplychain_url}}/api/shipments/1/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "BI Service",
+      "item": [
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{bi_url}}/api/dashboard/summary"
+          }
+        },
+        {
+          "name": "Get Orders By City",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{bi_url}}/api/dashboard/orders-by-city"
+          }
+        }
+      ]
+    }
+  ]
+}

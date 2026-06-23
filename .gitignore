@@ -1,0 +1,237 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+terraform.tfstate
+
+# Environnements
+terraform/environments/secrets.tfvars
+terraform/environments/*.local.tfvars
+
+# Logs
+*.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+target/
+build/
+*.jar
+
+# Docker
+.dockerignore
+
+# Certificates
+*.pem
+*.key
+*.crt
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Temp
+tmp/
+temp/
+*.tmp
+
+# Coverage
+coverage/
+htmlcov/
+
+# Test
+test-results/
+.jest/
+
+# Terraform plan
+*.tfplan
+
+# AWS
+.aws/
+aws-credentials
+
+# Node modules
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Java
+.classpath
+.project
+.settings/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Gradle
+.gradle/
+build/
+.gradle/
+gradle-app.setting
+!gradle-wrapper.properties
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VSCode
+.vscode/
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+terraform.tfstate
+
+# Environnements
+terraform/environments/secrets.tfvars
+terraform/environments/*.local.tfvars
+
+# Logs
+*.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+target/
+build/
+*.jar
+
+# Docker
+.dockerignore
+
+# Certificates
+*.pem
+*.key
+*.crt
+
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Temp
+tmp/
+temp/
+*.tmp
+
+# Coverage
+coverage/
+htmlcov/
+
+# Test
+test-results/
+.jest/
+
+# Terraform plan
+*.tfplan
+
+# AWS
+.aws/
+aws-credentials
+
+# Node modules
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Java
+.classpath
+.project
+.settings/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Gradle
+.gradle/
+build/
+.gradle/
+gradle-app.setting
+!gradle-wrapper.properties
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VSCode
+.vscode/
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
