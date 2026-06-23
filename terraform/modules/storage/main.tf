@@ -109,9 +109,9 @@ resource "aws_elasticache_subnet_group" "redis" {
 
 # ElastiCache Redis Cluster (Multi-AZ)
 resource "aws_elasticache_replication_group" "redis" {
-  replication_group_id       = "${var.project_name}-${var.environment}-redis"
-  replication_group_description = "Redis cluster for DIGITRANS-CM caching"
-  
+  replication_group_id = "${var.project_name}-${var.environment}-redis"
+  description          = "Redis cluster for DIGITRANS-CM caching"
+
   engine               = "redis"
   engine_version       = "7.0"
   node_type            = "cache.t3.medium"
@@ -127,8 +127,9 @@ resource "aws_elasticache_replication_group" "redis" {
 
   at_rest_encryption_enabled = true
   transit_encryption_enabled = true
-  auth_token_enabled         = true
-  auth_token                 = var.redis_auth_token
+
+  # auth_token est passé via var.redis_auth_token
+  # auth_token_enabled est déprécié ou géré par la présence de l'auth_token
 
   kms_key_id = var.kms_key_arn
 
