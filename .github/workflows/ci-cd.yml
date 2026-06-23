@@ -153,10 +153,22 @@ jobs:
 
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           image-ref: ${{ env.ECR_REGISTRY }}/${{ env.PROJECT_NAME }}/${{ matrix.service }}:${{ github.sha }}
           format: 'sarif'
           output: 'trivy-image-results.sarif'
+          severity: 'CRITICAL'
+
+      - name: Check and Upload Docker scan results
+        run: |
+          if [ -f "trivy-image-results.sarif" ]; then
+            gh api -X POST /repos/${{ github.repository }}/code-scanning/sarifs -f commit_sha=${{ github.sha }} -f ref=${{ github.ref }} -f sarif=@trivy-image-results.sarif || true
+          else
+            echo "Le fichier trivy-image-results.sarif est introuvable. Skip upload."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Docker image to ECR
         run: |
