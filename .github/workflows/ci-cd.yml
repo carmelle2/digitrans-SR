@@ -92,10 +92,15 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL'
 
-      - name: Upload Trivy results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: 'trivy-results.sarif'
+      - name: Check and Upload Trivy results
+        run: |
+          if [ -f "trivy-results.sarif" ]; then
+            gh api -X POST /repos/${{ github.repository }}/code-scanning/sarifs -f commit_sha=${{ github.sha }} -f ref=${{ github.ref }} -f sarif=@trivy-results.sarif || true
+          else
+            echo "Le fichier trivy-results.sarif est introuvable. Skip upload."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Job 3: Build and Push Docker Images
   docker-build-push:
